@@ -1,0 +1,4 @@
+LIBRARY	"enchantment_cost_multiplier"
+EXPORTS
+OBSEPlugin_Query
+OBSEPlugin_Load
