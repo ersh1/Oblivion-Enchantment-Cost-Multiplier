@@ -63,6 +63,23 @@ void __declspec(naked) Hook_5F4570()
 	}
 }
 
+static const UInt32 kHook_60CB05 = 0x60CB05;
+static const UInt32 kHook_60CB05_Return = 0x60CB0B;
+
+void __declspec(naked) Hook_60CB05()
+{
+	__asm {
+		call eax
+
+		sub esp, 4
+		fstp dword ptr[esp]
+		call RescaleCost
+
+		FSTP DWORD PTR SS : [ESP + 0x1C]
+		jmp kHook_60CB05_Return
+	}
+}
+
 static const UInt32 kHook_5FC8FA = 0x5FC8FA;
 static const UInt32 kHook_5FC8FA_Return = 0x5FC900;
 
@@ -241,6 +258,7 @@ void HookEnchantMult()
 	
 	WriteRelJump(kHook_5E4788, (UInt32)&Hook_5E4788); // apply enchantment cost - melee
 	WriteRelJump(kHook_5E496F, (UInt32)&Hook_5E496F); // apply enchantment cost - staff
+	WriteRelJump(kHook_60CB05, (UInt32)&Hook_60CB05); // apply enchantment cost - bow
 	
 	WriteRelJump(kHook_65768F, (UInt32)&Hook_65768F); // fcomp, melee vfx
 	WriteRelJump(kHook_5ED5F6, (UInt32)&Hook_5ED5F6); // fcomp, staff vfx
